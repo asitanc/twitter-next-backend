@@ -22,6 +22,7 @@ export default function handler(req, res) {
         process.env.USER_SECRET, //test user secret            
         function (e, data, r) {
             if (e) console.error(e);
+            res.setHeader("Access-Control-Allow-Origin", "*");
             res.status(200).json({ result: JSON.parse(data) })
         });
 
