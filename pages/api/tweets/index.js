@@ -8,8 +8,8 @@ export default async function handler(req, res) {
     let token = "";
 
     var oauth2 = new OAuth2(
-        process.env.OAUTH_CLIENT_ID,
-        process.env.OAUTH_CLIENT_SECRET,
+        process.env.API_KEY,
+        process.env.API_SECRET,
         'https://api.twitter.com/',
         null,
         'oauth2/token',
