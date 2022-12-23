@@ -1,11 +1,9 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 export default async function handler(req, res) {
 
-    // oauth verification
-    var OAuth2 = require('oauth').OAuth2;
+    const query = req.query.query;
 
-    let token = "";
+    const OAuth2 = require('oauth').OAuth2;
+    const promisify = f => (...args) => new Promise((a,b)=>f(...args, (err, res) => err ? b(err) : a(res)));
 
     var oauth2 = new OAuth2(
         process.env.API_KEY,
@@ -17,31 +15,16 @@ export default async function handler(req, res) {
         'HMAC-SHA1'
     );
 
-    oauth2.getOAuthAccessToken(
-        '',
-        { 'grant_type': 'client_credentials' },
-        function (e, access_token, refresh_token, results) {
-            console.log(results)
-            oauth2.get('https://api.twitter.com/2/tweets/search/all?query=NBA',
-                access_token, function (e, data, r) {
-                    if (e) console.error(e);
-                    res.status(200).json({ result: JSON.parse(data) })
-                })
-        }
-    )
+    const getOAuthAccessToken = promisify(oauth2.getOAuthAccessToken.bind(oauth2))
+    const accessToken = await getOAuthAccessToken('', { grant_type: 'client_credentials' })
+  
+    const result = await fetch(`https://api.twitter.com/2/tweets/search/recent?query=${query}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    }).then((res) => res.json())
 
-    /*
-    // get request
-    oauth.get(
-        'https://api.twitter.com/2/spaces/search?query=NBA&space.fields=title,created_at&expansions=creator_id',
-        process.env.USER_KEY, //test user token
-        process.env.USER_SECRET, //test user secret            
-        function (e, data, r) {
-            if (e) console.error(e);
-            res.setHeader("Access-Control-Allow-Origin", "*");
-            res.status(200).json({ result: JSON.parse(data) })
-        });
-
-        */
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.status(200).json(result);
 
 }
