@@ -1,6 +1,7 @@
 export default async function handler(req, res) {
 
-    const query = req.query.query;
+    const request = JSON.parse(req.body);
+    const query = request.query;
 
     const OAuth2 = require('oauth').OAuth2;
     const promisify = f => (...args) => new Promise((a,b)=>f(...args, (err, res) => err ? b(err) : a(res)));
