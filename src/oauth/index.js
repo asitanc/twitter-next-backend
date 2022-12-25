@@ -1,8 +1,4 @@
-export default async function handler(req, res) {
-    /** fetch tweets based on query in request body, POST */
-
-    const request = JSON.parse(req.body);
-    const query = request.query;
+const auth = async () => {
 
     const OAuth2 = require('oauth').OAuth2;
     const promisify = f => (...args) => new Promise((a,b)=>f(...args, (err, res) => err ? b(err) : a(res)));
@@ -19,13 +15,9 @@ export default async function handler(req, res) {
 
     const getOAuthAccessToken = promisify(oauth2.getOAuthAccessToken.bind(oauth2))
     const accessToken = await getOAuthAccessToken('', { grant_type: 'client_credentials' })
-  
-    const result = await fetch(`https://api.twitter.com/2/tweets?ids=${query}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    }).then((res) => res.json())
 
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.status(200).json(result);
+    return accessToken;
 }
+
+
+export { auth }
