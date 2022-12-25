@@ -1,15 +1,14 @@
-import { auth } from '../../../src/oauth'
+import { auth } from "../../../src/oauth";
 
 export default async function handler(req, res) {
-
-    /** fetch tweets based on query in request body, POST */
+    /** fetch tweets based on ids in request body, POST */
 
     const request = JSON.parse(req.body);
-    const query = request.query;
+    const ids = request.ids;
 
     const accessToken = await auth();
   
-    const result = await fetch(`https://api.twitter.com/2/tweets/search/recent?query=${query}`, {
+    const result = await fetch(`https://api.twitter.com/2/tweets?ids=${ids}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`
       }
@@ -17,5 +16,4 @@ export default async function handler(req, res) {
 
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.status(200).json(result);
-
 }
