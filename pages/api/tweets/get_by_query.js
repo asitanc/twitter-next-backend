@@ -7,14 +7,13 @@ export default async function handler(req, res) {
     const query = request.query;
 
     const accessToken = await auth();
-  
+
     const result = await fetch(`https://api.twitter.com/2/tweets/search/recent?query=${query}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    }).then((res) => res.json())
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        }
+    }).then((res) => res.json());
 
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.status(200).json(result);
-
 }

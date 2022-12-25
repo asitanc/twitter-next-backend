@@ -12,7 +12,7 @@ export default async function handler(req, res) {
         headers: {
             Authorization: `Bearer ${accessToken}`
         }
-    }).then(res => res.json())
+    }).then(res => res.json());
 
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.status(200).json(result);
