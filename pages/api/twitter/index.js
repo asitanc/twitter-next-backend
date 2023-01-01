@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     const request = JSON.parse(req.body);
     const method = request.method;
     const apiUrl = request.apiUrl ? `${url}${request.apiUrl}` : null;
-    const query = request.query ? `${apiUrl}?query=${request.query}` : `${apiUrl}`;
+    const query = request.query ? `${apiUrl}?${request.type}=${request.query}` : `${apiUrl}`;
     const expansions = request.expansions ? `${query}&expansions=${request.expansions}` : `${query}`;
     const tweetFields = request.tweetFields ? `${expansions}&tweet.fields=${request.tweetFields}` : `${expansions}`;
     const userFields = request.userFields ? `${tweetFields}&user.fields=${request.userFields}` : `${tweetFields}`;
