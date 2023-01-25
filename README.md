@@ -6,7 +6,7 @@ This example can be easily deployed on [Vercel](https://vercel.com); however, it
 The current APIs get query from request body, but you can also move the API use [dynamic route](https://nextjs.org/docs/routing/dynamic-routes).
 
 ```
-/pages/api/ - API examples
+/pages/api/ - API example
 /src/oauth/index.js - OAuth2 authorization script that you need to use in API to get access key!
 ```
 

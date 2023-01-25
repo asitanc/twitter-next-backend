@@ -1,4 +1,4 @@
-const auth = async () => {
+const auth = async () => {
 
     const OAuth2 = require('oauth').OAuth2;
     const promisify = f => (...args) => new Promise((a,b)=>f(...args, (err, res) => err ? b(err) : a(res)));
@@ -18,6 +18,5 @@ const auth = async () => {
 
     return accessToken;
 }
-
 
 export { auth }
